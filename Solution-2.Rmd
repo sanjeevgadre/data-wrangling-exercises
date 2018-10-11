@@ -1,0 +1,79 @@
+---
+title: "Solution-2"
+author: "Sanjeev Gadre"
+date: "October 10, 2018"
+output: md_document
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(readxl)
+library(openxlsx)
+library(rjson)
+library(XML)
+library(kulife)
+library(plyr)
+library(rvest)
+library(htmltab)
+```
+
+This is the solution to the problem set found at https://www.r-exercises.com/2017/06/07/data-wrangling-io-part-2/.
+
+###2.1
+```{r 2-1}
+url = "https://raw.githubusercontent.com/VasTsak/r-exercises-dw/master/part-1/data.csv"
+```
+
+###2.2
+```{r 2-2}
+csv_file = read.csv(url)
+```
+
+###2.3
+```{r 2-3}
+url = "https://raw.githubusercontent.com/VasTsak/r-exercises-dw/master/part-2/data.txt"
+text_file = read.table(url)
+```
+
+###2.4
+```{r 2-4}
+url = "https://raw.githubusercontent.com/VasTsak/r-exercises-dw/master/part-2/data.json"
+json_file = fromJSON(file=url)
+json_file = as.data.frame(json_file)
+```
+
+###2.5
+```{r 2-5}
+url = "https://raw.githubusercontent.com/VasTsak/r-exercises-dw/master/part-2/data.xml"
+# xml_file = read_xml(url) - THERE IS SOME ERROR WITH THE FILE ENCODING AND UNABLE TO READ THE XML DOCUMENT
+```
+
+###2.6
+```{r 2-6}
+url = "http://www.worldatlas.com/articles/largest-cities-in-europe-by-population.html"
+html_file = read_html(url)
+```
+
+###2.7
+```{r 2-7}
+table.nodes = html_nodes(html_file, "table")
+```
+
+###2.8
+```{r 2-8}
+html.table = html_table(table.nodes, fill=TRUE)
+```
+
+###2.9
+```{r 2-9}
+url = "http://www.worldatlas.com/articles/largest-cities-in-europe-by-population.html"
+
+# html.table = readHTMLTable("http://www.worldatlas.com/articles/largest-cities-in-europe-by-population.html") - THE readHTMLTABLE() RETURNS AN ERROR CITING INABLITY TO LOAD THE URL.
+```
+
+###2.10
+```{r 2-10}
+df_pop = htmltab(doc = url, which = "//th[text() = 'Rank']/ancestor::table")
+```
+
